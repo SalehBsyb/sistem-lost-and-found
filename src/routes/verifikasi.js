@@ -1,6 +1,79 @@
-const r=require('express').Router(),auth=require('../middleware/auth'),role=require('../middleware/roleCheck'),K=require('../models/Klaim'),B=require('../models/BarangTemuan'),Log=require('../models/Log');
-r.use(auth,role('satpam','administrator'));
-r.get('/',async(q,s)=>{try{const items=await K.pending();s.render('verifikasi/index',{items})}catch(e){console.error(e);s.status(500).send('Terjadi kesalahan server')}});
-r.post('/:id/setuju',async(q,s)=>{try{const c=await K.find(q.params.id);if(!c)return s.status(404).send('Klaim tidak ditemukan');if(c.status_klaim!=='Menunggu Verifikasi'){q.session.msg={type:'danger',text:'Klaim sudah diverifikasi'};return s.redirect('/verifikasi')}await K.verify('Disetujui',null,q.session.user.id_pengguna,q.params.id);await B.updateStatus('Dikembalikan',c.id_barang_temuan);await Log.add(q.session.user.id_pengguna,'Setujui Klaim','klaim_kepemilikan',q.params.id,'Klaim disetujui');q.session.msg={type:'success',text:'Klaim disetujui dan barang ditandai dikembalikan'};s.redirect('/verifikasi')}catch(e){console.error(e);s.status(500).send('Terjadi kesalahan server')}});
-r.post('/:id/tolak',async(q,s)=>{try{const alasan=(q.body.alasan_penolakan||'').trim();if(alasan.length<5){q.session.msg={type:'danger',text:'Alasan penolakan minimal 5 karakter'};return s.redirect('/verifikasi')}const c=await K.find(q.params.id);if(!c)return s.status(404).send('Klaim tidak ditemukan');if(c.status_klaim!=='Menunggu Verifikasi'){q.session.msg={type:'danger',text:'Klaim sudah diverifikasi'};return s.redirect('/verifikasi')}await K.verify('Ditolak',alasan,q.session.user.id_pengguna,q.params.id);await B.updateStatus('Tersedia',c.id_barang_temuan);await Log.add(q.session.user.id_pengguna,'Tolak Klaim','klaim_kepemilikan',q.params.id,'Klaim ditolak');q.session.msg={type:'success',text:'Klaim ditolak dan status barang dikembalikan ke Tersedia'};s.redirect('/verifikasi')}catch(e){console.error(e);s.status(500).send('Terjadi kesalahan server')}});
-module.exports=r;
+const r = require("express").Router(),
+  auth = require("../middleware/auth"),
+  role = require("../middleware/roleCheck"),
+  K = require("../models/Klaim"),
+  B = require("../models/BarangTemuan"),
+  Log = require("../models/Log");
+r.use(auth, role("satpam", "administrator"));
+r.get("/", async (q, s) => {
+  try {
+    const items = await K.pending();
+    s.render("verifikasi/index", { items });
+  } catch (e) {
+    console.error(e);
+    s.status(500).send("Terjadi kesalahan server");
+  }
+});
+r.post("/:id/setuju", async (q, s) => {
+  try {
+    const c = await K.find(q.params.id);
+    if (!c) return s.status(404).send("Klaim tidak ditemukan");
+    if (c.status_klaim !== "Menunggu Verifikasi") {
+      q.session.msg = { type: "danger", text: "Klaim sudah diverifikasi" };
+      return s.redirect("/verifikasi");
+    }
+    await K.verify("Disetujui", null, q.session.user.id_pengguna, q.params.id);
+    await B.updateStatus("Dikembalikan", c.id_barang_temuan);
+    await Log.add(
+      q.session.user.id_pengguna,
+      "Setujui Klaim",
+      "klaim_kepemilikan",
+      q.params.id,
+      "Klaim disetujui",
+    );
+    q.session.msg = {
+      type: "success",
+      text: "Klaim disetujui dan barang ditandai dikembalikan",
+    };
+    s.redirect("/verifikasi");
+  } catch (e) {
+    console.error(e);
+    s.status(500).send("Terjadi kesalahan server");
+  }
+});
+r.post("/:id/tolak", async (q, s) => {
+  try {
+    const alasan = (q.body.alasan_penolakan || "").trim();
+    if (alasan.length < 5) {
+      q.session.msg = {
+        type: "danger",
+        text: "Alasan penolakan minimal 5 karakter",
+      };
+      return s.redirect("/verifikasi");
+    }
+    const c = await K.find(q.params.id);
+    if (!c) return s.status(404).send("Klaim tidak ditemukan");
+    if (c.status_klaim !== "Menunggu Verifikasi") {
+      q.session.msg = { type: "danger", text: "Klaim sudah diverifikasi" };
+      return s.redirect("/verifikasi");
+    }
+    await K.verify("Ditolak", alasan, q.session.user.id_pengguna, q.params.id);
+    await B.updateStatus("Tersedia", c.id_barang_temuan);
+    await Log.add(
+      q.session.user.id_pengguna,
+      "Tolak Klaim",
+      "klaim_kepemilikan",
+      q.params.id,
+      "Klaim ditolak",
+    );
+    q.session.msg = {
+      type: "success",
+      text: "Klaim ditolak dan status barang dikembalikan ke Tersedia",
+    };
+    s.redirect("/verifikasi");
+  } catch (e) {
+    console.error(e);
+    s.status(500).send("Terjadi kesalahan server");
+  }
+});
+module.exports = r;

@@ -1,3 +1,13 @@
 <% if (typeof msg !== 'undefined' && msg) { %>
-<div class="alert alert-<%= msg.type || 'info' %> alert-dismissible fade show" role="alert"><%= msg.text %><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Tutup"></button></div>
+<div
+  class="alert alert-<%= msg.type || 'info' %> alert-dismissible fade show"
+  role="alert"
+>
+  <%= msg.text %><button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Tutup"
+  ></button>
+</div>
 <% } %>

@@ -1,3 +1,23 @@
-const r=require('express').Router(),auth=require('../middleware/auth'),role=require('../middleware/roleCheck'),B=require('../models/BarangTemuan'),K=require('../models/Kategori');
-r.get('/',auth,role('satpam','administrator'),async(q,s)=>{try{const f={q:'',id_kategori:q.query.id_kategori||'',status:q.query.status||'',lokasi:'',dari:q.query.dari||'',sampai:q.query.sampai||''};const[items,kategori]=await Promise.all([B.all(f),K.all()]);s.render('laporanRekap/index',{items,f,kategori})}catch(e){console.error(e);s.status(500).send('Terjadi kesalahan server')}});
-module.exports=r;
+const r = require("express").Router(),
+  auth = require("../middleware/auth"),
+  role = require("../middleware/roleCheck"),
+  B = require("../models/BarangTemuan"),
+  K = require("../models/Kategori");
+r.get("/", auth, role("satpam", "administrator"), async (q, s) => {
+  try {
+    const f = {
+      q: "",
+      id_kategori: q.query.id_kategori || "",
+      status: q.query.status || "",
+      lokasi: "",
+      dari: q.query.dari || "",
+      sampai: q.query.sampai || "",
+    };
+    const [items, kategori] = await Promise.all([B.all(f), K.all()]);
+    s.render("laporanRekap/index", { items, f, kategori });
+  } catch (e) {
+    console.error(e);
+    s.status(500).send("Terjadi kesalahan server");
+  }
+});
+module.exports = r;

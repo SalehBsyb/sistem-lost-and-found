@@ -1,1 +1,14 @@
-const db=require('../config/db');module.exports={add:(u,a,t,id,d)=>db.execute('INSERT INTO log_sistem(id_pengguna,aktivitas,tabel_referensi,id_referensi,deskripsi) VALUES(?,?,?,?,?)',[u,a,t,id,d]),all:async()=>{const[r]=await db.execute('SELECT l.*,p.nama_lengkap FROM log_sistem l LEFT JOIN pengguna p ON p.id_pengguna=l.id_pengguna ORDER BY l.created_at DESC LIMIT 200');return r}};
+const db = require("../config/db");
+module.exports = {
+  add: (u, a, t, id, d) =>
+    db.execute(
+      "INSERT INTO log_sistem(id_pengguna,aktivitas,tabel_referensi,id_referensi,deskripsi) VALUES(?,?,?,?,?)",
+      [u, a, t, id, d],
+    ),
+  all: async () => {
+    const [r] = await db.execute(
+      "SELECT l.*,p.nama_lengkap FROM log_sistem l LEFT JOIN pengguna p ON p.id_pengguna=l.id_pengguna ORDER BY l.created_at DESC LIMIT 200",
+    );
+    return r;
+  },
+};

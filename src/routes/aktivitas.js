@@ -1,3 +1,22 @@
-const r=require('express').Router(),auth=require('../middleware/auth'),L=require('../models/LaporanKehilangan'),K=require('../models/Klaim');
-r.get('/',auth,async(q,s)=>{try{const isStaff=['satpam','administrator'].includes(q.session.user.peran_pengguna);const[laporan,klaim]=await Promise.all([L.byUser(q.session.user.id_pengguna),isStaff?K.byVerifier(q.session.user.id_pengguna):K.byUser(q.session.user.id_pengguna)]);s.render('aktivitas/index',{laporan,klaim,isStaff})}catch(e){console.error(e);s.status(500).send('Terjadi kesalahan server')}});
-module.exports=r;
+const r = require("express").Router(),
+  auth = require("../middleware/auth"),
+  L = require("../models/LaporanKehilangan"),
+  K = require("../models/Klaim");
+r.get("/", auth, async (q, s) => {
+  try {
+    const isStaff = ["satpam", "administrator"].includes(
+      q.session.user.peran_pengguna,
+    );
+    const [laporan, klaim] = await Promise.all([
+      L.byUser(q.session.user.id_pengguna),
+      isStaff
+        ? K.byVerifier(q.session.user.id_pengguna)
+        : K.byUser(q.session.user.id_pengguna),
+    ]);
+    s.render("aktivitas/index", { laporan, klaim, isStaff });
+  } catch (e) {
+    console.error(e);
+    s.status(500).send("Terjadi kesalahan server");
+  }
+});
+module.exports = r;
