@@ -1,0 +1,195 @@
+:root {
+  --primary-navy: #1b5e20;
+  --primary-navy-dark: #0d3b11;
+  --primary-navy-light: #2e7d32;
+  --primary-navy-subtle: #e8f5e9;
+  --text-dark: #212529;
+  --bg-light: #f6f8f6;
+  --border-color: #e0e0e0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text-dark);
+  background-color: var(--bg-light);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.bg-navy {
+  background-color: var(--primary-navy) !important;
+}
+
+.text-navy {
+  color: var(--primary-navy) !important;
+}
+
+.btn-navy {
+  background-color: var(--primary-navy);
+  color: #ffffff;
+  border: 1px solid var(--primary-navy);
+}
+
+.btn-navy:hover,
+.btn-navy:focus {
+  background-color: var(--primary-navy-dark);
+  color: #ffffff;
+  border-color: var(--primary-navy-dark);
+}
+
+.btn-navy:disabled,
+.btn-navy.disabled {
+  background-color: var(--primary-navy-light);
+  border-color: var(--primary-navy-light);
+  color: #ffffff;
+  opacity: 0.65;
+}
+
+.btn-success {
+  background-color: #2e7d32;
+  border-color: #2e7d32;
+}
+
+.btn-success:hover,
+.btn-success:focus {
+  background-color: #1b5e20;
+  border-color: #1b5e20;
+}
+
+.badge-success {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.table-light {
+  --bs-table-bg: #e8f5e9;
+  --bs-table-color: #1b1b1b;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 0.2rem rgba(46, 125, 50, 0.25);
+}
+
+.btn-outline-navy {
+  background-color: transparent;
+  color: var(--primary-navy);
+  border: 1px solid var(--primary-navy);
+}
+
+.btn-outline-navy:hover,
+.btn-outline-navy:focus {
+  background-color: var(--primary-navy);
+  color: #ffffff;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.card {
+  border: 1px solid var(--border-color);
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.card-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid var(--border-color);
+  font-weight: 600;
+}
+
+.badge-tersedia {
+  background-color: #2e7d32;
+  color: #ffffff;
+}
+
+.badge-proses {
+  background-color: #ef6c00;
+  color: #ffffff;
+}
+
+.badge-dikembalikan {
+  background-color: #607d8b;
+  color: #ffffff;
+}
+
+.stat-card {
+  border-left: 4px solid var(--primary-navy);
+}
+
+.stat-card.stat-success {
+  border-left-color: #2e7d32;
+}
+
+.stat-card.stat-warning {
+  border-left-color: #ef6c00;
+}
+
+.stat-card.stat-danger {
+  border-left-color: #c62828;
+}
+
+.stat-card.stat-info {
+  border-left-color: #0288d1;
+}
+
+.catalog-img {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: calc(0.75rem - 1px);
+  border-top-right-radius: calc(0.75rem - 1px);
+}
+
+.catalog-detail-img {
+  max-height: 420px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+.hero-banner {
+  background: linear-gradient(135deg, var(--primary-navy) 0%, #388e3c 100%);
+  color: #ffffff;
+  padding: 2.5rem 1.5rem;
+  border-radius: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.footer {
+  background-color: #ffffff;
+  border-top: 1px solid var(--border-color);
+  padding: 1.25rem 0;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+@media print {
+  body {
+    background-color: #ffffff;
+  }
+  .navbar,
+  .footer,
+  .btn,
+  .no-print,
+  .card-header .btn {
+    display: none !important;
+  }
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+  }
+}

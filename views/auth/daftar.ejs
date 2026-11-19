@@ -1,0 +1,60 @@
+<%- include('../layout/header') %>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="card-title text-center text-navy mb-1"><i class="bi bi-person-plus"></i> Buat Akun Baru</h3>
+        <p class="text-center text-muted small mb-4">Pendaftaran untuk sivitas akademika UIN Maulana Malik Ibrahim Malang</p>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="alert alert-danger" role="alert"><%= error %></div>
+        <% } %>
+        <div class="mb-3">
+  <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Kembali</a>
+</div>
+<form action="/daftar" method="post">
+          <div class="mb-3">
+            <label class="form-label">Nama Lengkap <span class="text-danger">*</span></label>
+            <input type="text" name="nama_lengkap" class="form-control" placeholder="Masukkan nama lengkap Anda"
+              value="<%= (old && old.nama_lengkap) || '' %>" required minlength="3">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email Kampus UIN Malang <span class="text-danger">*</span></label>
+            <input type="email" name="email" class="form-control" placeholder="nama@uin-malang.ac.id"
+              value="<%= (old && old.email_kampus) || '' %>" required pattern=".+@uin-malang\.ac\.id$">
+            <div class="form-text">Hanya email berakhiran @uin-malang.ac.id yang dapat mendaftar.</div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Kata Sandi <span class="text-danger">*</span></label>
+              <input type="password" name="kata_sandi" id="sandi" class="form-control" placeholder="Minimal 6 karakter" required minlength="6">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Konfirmasi Kata Sandi <span class="text-danger">*</span></label>
+              <input type="password" name="konfirmasi" id="konfirmasi" class="form-control" placeholder="Ulangi kata sandi" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Nomor Telepon</label>
+            <input type="tel" name="nomor_telepon" class="form-control" placeholder="08xxxxxxxxxx"
+              value="<%= (old && old.nomor_telepon) || '' %>">
+            <div class="form-text">Opsional. Hanya terlihat oleh Petugas Keamanan dan Administrator.</div>
+          </div>
+          <button type="submit" class="btn btn-navy w-100 py-2"><i class="bi bi-check-circle"></i> Daftar Sekarang</button>
+        </form>
+      </div>
+    </div>
+    <div class="text-center mt-3">
+      <span class="small text-muted">Sudah punya akun? </span>
+      <a href="/login" class="small fw-semibold text-navy">Masuk di sini</a>
+    </div>
+  </div>
+</div>
+
+<script>
+document.querySelector('form').addEventListener('submit',function(e){
+  const s=document.getElementById('sandi').value;
+  const k=document.getElementById('konfirmasi').value;
+  if(s!==k){e.preventDefault();alert('Konfirmasi kata sandi tidak sama!');return;}
+});
+</script>
+<%- include('../layout/footer') %>

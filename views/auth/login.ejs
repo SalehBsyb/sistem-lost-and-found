@@ -1,0 +1,43 @@
+<%- include('../layout/header') %>
+<div class="row justify-content-center mt-5">
+  <div class="col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="card-title text-center text-navy mb-1"><i class="bi bi-box-arrow-in-right"></i> Masuk Akun</h3>
+        <p class="text-center text-muted small mb-4">Sistem Informasi Lost &amp; Found UIN Malang</p>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="alert alert-danger" role="alert"><%= error %></div>
+        <% } %>
+        <% if (typeof msg !== 'undefined' && msg && msg.type === 'success') { %>
+          <div class="alert alert-success" role="alert"><%= msg.text %></div>
+        <% } %>
+        <div class="mb-3">
+  <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Kembali</a>
+</div>
+<form action="/login" method="post">
+          <div class="mb-3">
+            <label class="form-label">Email Kampus</label>
+            <input type="email" name="email" class="form-control" placeholder="nama@uin-malang.ac.id" required autofocus>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kata Sandi</label>
+            <input type="password" name="kata_sandi" class="form-control" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-navy w-100 py-2">Masuk</button>
+        </form>
+        <hr>
+        <div class="small text-muted text-center">
+          <p class="mb-1"><strong>Akun Uji Coba:</strong></p>
+          <p class="mb-0">Admin: admin@uin-malang.ac.id / admin123</p>
+          <p class="mb-0">Satpam: satpam@uin-malang.ac.id / satpam123</p>
+          <p class="mb-0">Mahasiswa: mhs1@uin-malang.ac.id / mahasiswa123</p>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-3">
+      <span class="small text-muted">Belum punya akun? </span>
+      <a href="/daftar" class="small fw-semibold text-navy">Daftar di sini</a>
+    </div>
+  </div>
+</div>
+<%- include('../layout/footer') %>

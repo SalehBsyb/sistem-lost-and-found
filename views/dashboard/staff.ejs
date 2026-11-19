@@ -1,0 +1,98 @@
+<%- include('../layout/header') %>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h3 class="fw-bold text-navy mb-0">Dashboard Petugas</h3>
+    <small class="text-muted">Peran: <strong class="text-uppercase"><%= user.peran_pengguna %></strong> | <%= user.nama_lengkap %></small>
+  </div>
+  <div>
+    <a href="/verifikasi" class="btn btn-navy me-2"><i class="bi bi-shield-check"></i> Verifikasi Klaim</a>
+    <a href="/laporan" class="btn btn-outline-navy"><i class="bi bi-file-earmark-text"></i> Rekap Laporan</a>
+  </div>
+</div>
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="card stat-card stat-info p-3">
+      <h6 class="text-muted small mb-1">Total Barang Temuan</h6>
+      <h2 class="fw-bold mb-0"><%= stats.totalTemuan %></h2>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card stat-success p-3">
+      <h6 class="text-muted small mb-1">Barang Tersedia</h6>
+      <h2 class="fw-bold mb-0 text-success"><%= stats.tersedia %></h2>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card stat-warning p-3">
+      <h6 class="text-muted small mb-1">Klaim Menunggu Verifikasi</h6>
+      <h2 class="fw-bold mb-0 text-warning"><%= stats.pendingClaims %></h2>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card stat-card stat-danger p-3">
+      <h6 class="text-muted small mb-1">Laporan Hilang Aktif</h6>
+      <h2 class="fw-bold mb-0 text-danger"><%= stats.activeLost %></h2>
+    </div>
+  </div>
+</div>
+<div class="row g-4 mb-4">
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <span class="fw-bold">Barang Temuan Terbaru</span>
+        <a href="/katalog" class="btn btn-sm btn-outline-navy">Semua</a>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light"><tr><th>Barang</th><th>Kategori</th><th>Status</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <% if (recentItems && recentItems.length > 0) { %>
+                <% recentItems.forEach(item => { %>
+                  <tr>
+                    <td><strong><%= item.nama_barang %></strong><br><small class="text-muted"><%= item.lokasi_ditemukan %></small></td>
+                    <td><span class="badge bg-light text-dark"><%= item.nama_kategori %></span></td>
+                    <td>
+                      <% if (item.status_barang === 'Tersedia') { %><span class="badge badge-tersedia">Tersedia</span>
+                      <% } else if (item.status_barang === 'Sedang Proses Klaim') { %><span class="badge badge-proses">Proses Klaim</span>
+                      <% } else { %><span class="badge badge-dikembalikan">Dikembalikan</span><% } %>
+                    </td>
+                    <td><a href="/katalog/<%= item.id_barang_temuan %>" class="btn btn-sm btn-outline-navy">Detail</a></td>
+                  </tr>
+                <% }) %>
+              <% } else { %><tr><td colspan="4" class="text-center text-muted py-3">Tidak ada data</td></tr><% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card h-100">
+      <div class="card-header bg-white d-flex justify-content-between align-items-center">
+        <span class="fw-bold">Klaim Menunggu Verifikasi</span>
+        <a href="/verifikasi" class="btn btn-sm btn-outline-navy">Semua</a>
+      </div>
+      <div class="card-body p-0">
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light"><tr><th>Barang</th><th>Pengklaim</th><th>Waktu</th><th>Aksi</th></tr></thead>
+            <tbody>
+              <% if (recentClaims && recentClaims.length > 0) { %>
+                <% recentClaims.forEach(c => { %>
+                  <tr>
+                    <td><strong><%= c.nama_barang %></strong></td>
+                    <td><%= c.nama_lengkap %><br><small class="text-muted"><%= c.email_kampus %></small></td>
+                    <td><small><%= new Date(c.waktu_pengajuan).toLocaleDateString('id-ID') %></small></td>
+                    <td><a href="/verifikasi" class="btn btn-sm btn-warning">Tinjau</a></td>
+                  </tr>
+                <% }) %>
+              <% } else { %><tr><td colspan="4" class="text-center text-muted py-3">Tidak ada klaim menunggu</td></tr><% } %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<%- include('../layout/footer') %>
